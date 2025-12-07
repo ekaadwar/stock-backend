@@ -1,8 +1,21 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { PrismaModule } from './prisma/prisma.module';
+import { AdminsModule } from './admins/admins.module';
+import { AuthModule } from './auth/auth.module';
+import { CategoriesModule } from './categories/categories.module';
+import { ProductsModule } from './products/products.module';
+import { TransactionsModule } from './transactions/transactions.module';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.PORT ?? 3000);
-}
-bootstrap();
+@Module({
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    PrismaModule,
+    AuthModule,
+    AdminsModule,
+    CategoriesModule,
+    ProductsModule,
+    TransactionsModule,
+  ],
+})
+export class AppModule {}
