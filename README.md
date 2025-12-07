@@ -1,98 +1,236 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Stock App Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Backend aplikasi **Stock Management** yang dibangun menggunakan:
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- [NestJS](https://nestjs.com/) (TypeScript)
+- [Prisma ORM](https://www.prisma.io/) v7
+- MySQL
+- JWT Authentication
 
-## Description
+Backend ini menyediakan API untuk:
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- Autentikasi admin (login)
+- Manajemen Admin
+- Manajemen Kategori Produk
+- Manajemen Produk
+- Transaksi Stok (IN / OUT) + validasi stok
+- Riwayat transaksi
 
-## Project setup
+---
 
-```bash
-$ npm install
-```
+## 1. Prerequisites
 
-## Compile and run the project
+Pastikan sudah ter-install di mesin lokal:
+
+- **Node.js** LTS (disarankan v20.x)
+- **npm** (terinstall otomatis bersama Node)
+- **MySQL** (5.7 / 8.x)
+
+Cek versi:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+node -v
+npm -v
+mysql --version
 ```
 
-## Run tests
+> Rekomendasi: gunakan `nvm` untuk mengelola versi Node.js.
+
+---
+
+## 2. Clone Repository
+
+Clone repo kemudian masuk ke folder backend:
 
 ```bash
-# unit tests
-$ npm run test
+git clone <URL_REPOSITORY_ANDA>.git
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+cd <NAMA_REPOSITORY>/backend
 ```
 
-## Deployment
+Ganti `<URL_REPOSITORY_ANDA>` dan `<NAMA_REPOSITORY>` sesuai repo GitHub kamu.
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+---
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## 3. Install Dependencies
+
+Di dalam folder `backend`:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm install
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Ini akan meng-install semua dependency NestJS, Prisma, dan lainnya.
 
-## Resources
+---
 
-Check out a few resources that may come in handy when working with NestJS:
+## 4. Setup Database MySQL
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Login ke MySQL sebagai root:
 
-## Support
+```bash
+sudo mysql -u root -p
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Lalu jalankan perintah SQL berikut:
 
-## Stay in touch
+```sql
+CREATE DATABASE stock_app_db;
+CREATE USER 'stock_user'@'localhost' IDENTIFIED BY 'ganti-password-anda';
+GRANT ALL PRIVILEGES ON stock_app_db.* TO 'stock_user'@'localhost';
+GRANT CREATE, DROP ON *.* TO 'stock_user'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Penjelasan singkat:
 
-## License
+- `stock_app_db` → nama database untuk aplikasi ini
+- `stock_user` → user khusus untuk aplikasi
+- `ganti-password-anda` → silakan ganti dengan password yang kamu inginkan
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+> Catatan: kalau password MySQL kamu mengandung karakter spesial seperti `@`, `:`, `#`, `/`, **wajib** di-URL-encode saat dipakai di `DATABASE_URL`.
+
+---
+
+## 5. Konfigurasi Environment (`.env`)
+
+Di folder `backend`, buat file `.env`:
+
+```bash
+cd backend
+touch .env
+```
+
+Isi dengan:
+
+```env
+DATABASE_URL="mysql://stock_user:ganti-password-anda@localhost:3306/stock_app_db"
+JWT_SECRET="super-secret-key"
+JWT_EXPIRES_IN="1d"
+```
+
+- `DATABASE_URL` → connection string MySQL
+- `JWT_SECRET` → secret key untuk signing JWT (silakan ganti dengan string random)
+- `JWT_EXPIRES_IN` → lama token hidup (misal `1d`, `2h`, dll)
+
+> Jika password mengandung karakter seperti `@` atau `#`, encode terlebih dahulu (contoh: `@` → `%40`, `#` → `%23`).
+
+---
+
+## 6. Konfigurasi Prisma (Prisma 7)
+
+Prisma sudah dikonfigurasi menggunakan file:
+
+- `prisma/schema.prisma`
+- `prisma.config.ts`
+
+Secara default:
+
+- `provider` menggunakan `mysql`
+- `DATABASE_URL` diambil dari `.env`
+- Prisma Client diakses melalui `@prisma/client` dan menggunakan `PrismaMariaDb` adapter.
+
+Kamu tidak perlu mengubah file ini untuk menjalankan project lokal, cukup pastikan `.env` sudah benar.
+
+---
+
+## 7. Jalankan Migrasi Database
+
+Masih di folder `backend`:
+
+```bash
+npx prisma migrate dev --name init
+```
+
+Perintah ini akan:
+
+- Membuat struktur tabel di database `stock_app_db`
+- Menyimpan riwayat migrasi di folder `prisma/migrations`
+
+---
+
+## 8. Seed Admin Default
+
+Untuk membuat admin default (supaya bisa langsung login), jalankan:
+
+```bash
+npx ts-node prisma/seed.ts
+```
+
+Jika berhasil, akan muncul pesan di terminal, contoh:
+
+```txt
+Admin seeded: admin@example.com / password123
+```
+
+Akun default:
+
+- **Email**: `admin@example.com`
+- **Password**: `password123`
+
+Kredensial ini digunakan untuk login di endpoint `/auth/login` atau via frontend.
+
+---
+
+## 9. Menjalankan Server Backend
+
+Jalankan NestJS dalam mode development:
+
+```bash
+npm run start:dev
+```
+
+Secara default, server akan berjalan di:
+
+```txt
+http://localhost:4000
+```
+
+Jika berhasil, NestJS akan menampilkan log di terminal, contoh:
+
+```txt
+[Nest] 12345  - ...   LOG [NestFactory] Starting Nest application...
+...
+🚀 Server running on http://localhost:4000
+```
+
+---
+
+## 10. Test API Login (Opsional)
+
+Kamu bisa mengetes login admin via `curl`:
+
+```bash
+curl -X POST http://localhost:4000/auth/login   -H "Content-Type: application/json"   -d '{"email":"admin@example.com","password":"password123"}'
+```
+
+Jika sukses, akan mengembalikan JSON berisi:
+
+- `accessToken` (JWT)
+- Data `admin` (id, firstName, lastName, email)
+
+---
+
+## 11. Catatan Tambahan
+
+- Backend ini sudah di-enable CORS untuk frontend di `http://localhost:3000`.
+- Adapter yang digunakan: `@prisma/adapter-mariadb` (sesuai rekomendasi Prisma 7 untuk koneksi MySQL/MariaDB).
+- Semua akses database di NestJS menggunakan `PrismaService` (`src/prisma/prisma.service.ts`) yang meng-extend `PrismaClient`.
+
+Jika ingin menjalankan frontend yang terhubung ke backend ini, pastikan backend sudah jalan terlebih dahulu di `http://localhost:4000`.
+
+---
+
+## 12. Script npm yang Berguna
+
+Di folder `backend`:
+
+- `npm run start:dev` → menjalankan backend di mode development (watch mode)
+- `npx prisma migrate dev --name <nama>` → membuat / menjalankan migrasi database
+- `npx prisma studio` → (opsional) membuka UI Prisma untuk melihat data di database
+- `npx ts-node prisma/seed.ts` → menjalankan seeding admin default
+
+---
+
+Jika ada yang ingin kamu sesuaikan (nama DB, user, port, dsb.), tinggal update bagian `.env` dan langkah setup database di atas. 🚀
